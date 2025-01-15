@@ -203,8 +203,6 @@ void UMultiplayerSessionsSubsystem::SetSessionSettings(int32 NumPublicConnection
 	SessionSettings->bUseLobbiesIfAvailable = true; //NOTE Fix for UE 5
 	SessionSettings->Set(NAME_MatchType, MatchType, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	SessionSettings->BuildUniqueId = 1;
-
-	UE_LOG(LogTemp, Warning, TEXT("OnlineSubsystem name: %s"), *OnlineSubsystem->GetSubsystemName().ToString());
 }
 
 TSharedPtr<FOnlineSessionSettings> UMultiplayerSessionsSubsystem::GetSessionSettings()

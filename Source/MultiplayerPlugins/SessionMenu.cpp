@@ -48,6 +48,9 @@ void USessionMenu::Show_Implementation(bool InIsFocusable)
 		PC->SetInputMode(InputModeData);
 		PC->SetShowMouseCursor(true);
 	}
+
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(2, 10.f, FColor::Red, *IOnlineSubsystem::Get()->GetSubsystemName().ToString());
 }
 
 void USessionMenu::Hide_Implementation()
@@ -91,6 +94,14 @@ void USessionMenu::NativeDestruct()
 
 	UnsubscribeFromSessionDelegates();
 
+	APlayerController* PC = GetOwningPlayer<APlayerController>();
+	if (PC)
+	{
+		FInputModeGameOnly InputModeData;
+		PC->SetInputMode(InputModeData);
+		PC->SetShowMouseCursor(false);
+	}
+
 	Super::NativeDestruct();
 }
 
@@ -120,7 +131,8 @@ void USessionMenu::UnsubscribeFromSessionDelegates()
 
 void USessionMenu::OnCreateSession(bool bWasSuccessful)
 {
-	UE_LOG(LogTemp, Warning, TEXT("OnCreateSession_Implementation %d"), bWasSuccessful);
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(1, 10.f, FColor::Red, FString::Printf(TEXT("OnCreateSession_Implementation %d"), bWasSuccessful));
 
 	if (!bWasSuccessful)
 	{
@@ -129,7 +141,7 @@ void USessionMenu::OnCreateSession(bool bWasSuccessful)
 	}
 
 	if (MultiplayerSessionsSubsystem)
-		MultiplayerSessionsSubsystem->ServerTravel(GetOwningPlayer(), FString("/Game/Maps/Lobby"), false, true);
+		MultiplayerSessionsSubsystem->ServerTravel(GetOwningPlayer(), FString("/Game/ThirdPerson/Maps/Lobby"), false, true);
 }
 
 void USessionMenu::OnStartSession(bool bWasSuccessful)
