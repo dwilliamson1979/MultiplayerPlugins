@@ -73,4 +73,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = MultiplayerSessionWidget)
 	void Close();
 	
+
+	int32 NumPublicConnections{ 4 };
+	FString MatchType{ TEXT("DeathMatch") };
+	int32 MaxSearchResults{ 1000 };
+
 };

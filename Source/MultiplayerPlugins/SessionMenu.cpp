@@ -179,6 +179,7 @@ void USessionMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& Sess
 
 					//NOTE Coding this to auto-join at the moment.
 					MultiplayerSessionsSubsystem->JoinSession(GetOwningLocalPlayer(), Result);
+					return;
 				}
 			}
 		}
@@ -226,13 +227,13 @@ void USessionMenu::OnDestroySession(bool bWasSuccessful)
 void USessionMenu::OnHostClicked()
 {
 	if (MultiplayerSessionsSubsystem)
-		MultiplayerSessionsSubsystem->CreateSession(GetOwningLocalPlayer(), 4, FString("DeathMatch"));
+		MultiplayerSessionsSubsystem->CreateSession(GetOwningLocalPlayer(), NumPublicConnections, MatchType);
 }
 
 void USessionMenu::OnClientClicked()
 {
 	if (MultiplayerSessionsSubsystem)
-		MultiplayerSessionsSubsystem->FindSessions(GetOwningLocalPlayer(), 1000);
+		MultiplayerSessionsSubsystem->FindSessions(GetOwningLocalPlayer(), MaxSearchResults);
 }
 
 void USessionMenu::OnCloseClicked()

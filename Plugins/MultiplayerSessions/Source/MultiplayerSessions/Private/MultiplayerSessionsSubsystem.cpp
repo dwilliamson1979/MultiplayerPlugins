@@ -97,7 +97,7 @@ void UMultiplayerSessionsSubsystem::OnFindSessionsComplete(bool bWasSuccessful)
 	if (HasSessionInterface())
 		OnlineSessionInterface->ClearOnFindSessionsCompleteDelegate_Handle(FindSessionsCompleteDelegateHandle);
 
-	OnFindSessions.Broadcast(SessionSearch->SearchResults, bWasSuccessful);
+	OnFindSessions.Broadcast(SessionSearch->SearchResults, bWasSuccessful); //&& SessionSearch->SearchResults.Num() > 0);
 }
 
 void UMultiplayerSessionsSubsystem::JoinSessionByIndex(ULocalPlayer* LocalPlayer, int32 SessionIndex)
@@ -112,7 +112,8 @@ void UMultiplayerSessionsSubsystem::JoinSession(ULocalPlayer* LocalPlayer, const
 {
 	if (!HasSessionInterface())
 	{
-		OnJoinSessionComplete(NAME_GameSession, EOnJoinSessionCompleteResult::UnknownError);
+		//OnJoinSessionComplete(NAME_GameSession, EOnJoinSessionCompleteResult::UnknownError);
+		OnJoinSession.Broadcast(EOnJoinSessionCompleteResult::UnknownError);
 		return;
 	}
 
@@ -181,7 +182,10 @@ void UMultiplayerSessionsSubsystem::ClientTravel(FName SessionName, APlayerContr
 	if (PlayerController && GetConnectionString(SessionName, ConnectionString))
 	{
 		PlayerController->ClientTravel(ConnectionString, TravelType, bSeamless);
+		return;
 	}
+
+	//TODO Broadcast client travel failure.
 }
 
 void UMultiplayerSessionsSubsystem::SetSessionSettings(int32 NumPublicConnections, const FString MatchType)
