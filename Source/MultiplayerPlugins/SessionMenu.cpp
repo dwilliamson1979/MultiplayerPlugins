@@ -192,6 +192,9 @@ void USessionMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& Sess
 
 void USessionMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 {
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Green, Result == EOnJoinSessionCompleteResult::Success ? FString::Printf(TEXT("Join Session succeeded")) : FString::Printf(TEXT("Join Session failed")));
+
 	bool bWasSuccessful = false;
 	FString Message;
 	switch (Result)

@@ -179,6 +179,9 @@ void UMultiplayerSessionsSubsystem::ServerTravel(APlayerController* PlayerContro
 
 void UMultiplayerSessionsSubsystem::ClientTravel(FName SessionName, APlayerController* PlayerController, ETravelType TravelType, bool bSeamless)
 {
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Blue, FString::Printf(TEXT("Client Travel")));
+
 	FString ConnectionString;
 	if (PlayerController && GetConnectionString(SessionName, ConnectionString))
 	{
