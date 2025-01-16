@@ -118,6 +118,7 @@ void UMultiplayerSessionsSubsystem::JoinSession(ULocalPlayer* LocalPlayer, const
 		return;
 	}
 
+	//SEARCH_PRESENCE fix. Will this work in the future?
 	auto TempSession = Session;
 	TempSession.Session.SessionSettings.bUsesPresence = true;
 	TempSession.Session.SessionSettings.bUseLobbiesIfAvailable = true;
