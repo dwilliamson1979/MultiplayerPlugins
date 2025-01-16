@@ -195,6 +195,9 @@ void USessionMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Green, Result == EOnJoinSessionCompleteResult::Success ? FString::Printf(TEXT("Join Session succeeded")) : FString::Printf(TEXT("Join Session failed")));
 
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Green, FString::Printf(TEXT("%s"), *UEnum::GetValueAsString(Result)));
+
 	bool bWasSuccessful = false;
 	FString Message;
 	switch (Result)
