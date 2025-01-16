@@ -118,8 +118,12 @@ void UMultiplayerSessionsSubsystem::JoinSession(ULocalPlayer* LocalPlayer, const
 		return;
 	}
 
+	auto TempSession = Session;
+	TempSession.Session.SessionSettings.bUsesPresence = true;
+	TempSession.Session.SessionSettings.bUseLobbiesIfAvailable = true;
+
 	JoinSessionCompleteDelegateHandle = OnlineSessionInterface->AddOnJoinSessionCompleteDelegate_Handle(JoinSessionCompleteDelegate);
-	if (!OnlineSessionInterface->JoinSession(*LocalPlayer->GetPreferredUniqueNetId(), NAME_GameSession, Session))
+	if (!OnlineSessionInterface->JoinSession(*LocalPlayer->GetPreferredUniqueNetId(), NAME_GameSession, TempSession))
 		OnJoinSessionComplete(NAME_GameSession, EOnJoinSessionCompleteResult::UnknownError);
 }
 
