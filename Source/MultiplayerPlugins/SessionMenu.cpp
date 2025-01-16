@@ -175,7 +175,7 @@ void USessionMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& Sess
 				if (Result.Session.SessionSettings.Get<FString>(UMultiplayerSessionsSubsystem::NAME_MatchType, SessionMatchType) && SessionMatchType.Equals(MatchType))
 				{
 					if (GEngine)
-						GEngine->AddOnScreenDebugMessage(-1, 15.f, bWasSuccessful ? FColor::Green : FColor::Red, FString::Printf(TEXT("Session found: %s %i"), *(Result.GetSessionIdStr() + " " + Result.Session.OwningUserName), bWasSuccessful));
+						GEngine->AddOnScreenDebugMessage(-1, 15.f, bWasSuccessful ? FColor::Green : FColor::Red, FString::Printf(TEXT("Session found (inside loop): %s %i"), *(Result.GetSessionIdStr() + " " + Result.Session.OwningUserName), bWasSuccessful));
 
 					//NOTE Coding this to auto-join at the moment.
 					MultiplayerSessionsSubsystem->JoinSession(GetOwningLocalPlayer(), Result);
