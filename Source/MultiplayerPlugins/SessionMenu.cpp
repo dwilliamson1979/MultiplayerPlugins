@@ -169,8 +169,6 @@ void USessionMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& Sess
 		{
 			for (auto Result : SessionResults)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.f, bWasSuccessful ? FColor::Green : FColor::Red, FString::Printf(TEXT("Session found")));
-
 				FString SessionMatchType;
 				if (Result.Session.SessionSettings.Get<FString>(UMultiplayerSessionsSubsystem::NAME_MatchType, SessionMatchType) && SessionMatchType.Equals(MatchType))
 				{
@@ -192,9 +190,6 @@ void USessionMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& Sess
 
 void USessionMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 {
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Green, Result == EOnJoinSessionCompleteResult::Success ? FString::Printf(TEXT("Join Session succeeded")) : FString::Printf(TEXT("Join Session failed")));
-
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Green, FString::Printf(TEXT("OnJoinSession enum value %d"), Result));
 

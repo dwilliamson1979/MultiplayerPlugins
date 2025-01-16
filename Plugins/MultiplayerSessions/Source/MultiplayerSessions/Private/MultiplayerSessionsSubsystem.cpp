@@ -111,18 +111,12 @@ void UMultiplayerSessionsSubsystem::JoinSessionByIndex(ULocalPlayer* LocalPlayer
 
 void UMultiplayerSessionsSubsystem::JoinSession(ULocalPlayer* LocalPlayer, const FOnlineSessionSearchResult& Session)
 {
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Green, FString::Printf(TEXT("Join Session 1 (subsystem)")));
-
 	if (!HasSessionInterface())
 	{
 		//OnJoinSessionComplete(NAME_GameSession, EOnJoinSessionCompleteResult::UnknownError);
 		OnJoinSession.Broadcast(EOnJoinSessionCompleteResult::UnknownError);
 		return;
 	}
-
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Green, FString::Printf(TEXT("Join Session 2 (subsystem)")));
 
 	JoinSessionCompleteDelegateHandle = OnlineSessionInterface->AddOnJoinSessionCompleteDelegate_Handle(JoinSessionCompleteDelegate);
 	if (!OnlineSessionInterface->JoinSession(*LocalPlayer->GetPreferredUniqueNetId(), NAME_GameSession, Session))
@@ -131,9 +125,6 @@ void UMultiplayerSessionsSubsystem::JoinSession(ULocalPlayer* LocalPlayer, const
 
 void UMultiplayerSessionsSubsystem::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
 {
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Green, FString::Printf(TEXT("Join Session Complete (subsystem)")));
-
 	if (HasSessionInterface())
 		OnlineSessionInterface->ClearOnJoinSessionCompleteDelegate_Handle(JoinSessionCompleteDelegateHandle);
 
