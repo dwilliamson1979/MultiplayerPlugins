@@ -129,7 +129,7 @@ void USessionMenu::UnsubscribeFromSessionDelegates()
 	}
 }
 
-void USessionMenu::OnCreateSession(bool bWasSuccessful)
+void USessionMenu::OnCreateSession(bool bWasSuccessful, const FString& Message)
 {
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(1, 10.f, FColor::Red, FString::Printf(TEXT("OnCreateSession_Implementation %d"), bWasSuccessful));
@@ -141,7 +141,7 @@ void USessionMenu::OnCreateSession(bool bWasSuccessful)
 	}
 
 	if (MultiplayerSessionsSubsystem)
-		MultiplayerSessionsSubsystem->ServerTravel(GetOwningPlayer(), FString("/Game/ThirdPerson/Maps/Lobby"), false, true);
+		MultiplayerSessionsSubsystem->ServerTravel(GetOwningPlayer(), PathToLobby, false, true);
 }
 
 void USessionMenu::OnStartSession(bool bWasSuccessful)
@@ -171,8 +171,8 @@ void USessionMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& Sess
 			{
 				GEngine->AddOnScreenDebugMessage(-1, 15.f, bWasSuccessful ? FColor::Green : FColor::Red, FString::Printf(TEXT("Session found")));
 
-				FString MatchType;
-				if (Result.Session.SessionSettings.Get<FString>(UMultiplayerSessionsSubsystem::NAME_MatchType, MatchType))
+				FString SessionMatchType;
+				if (Result.Session.SessionSettings.Get<FString>(UMultiplayerSessionsSubsystem::NAME_MatchType, SessionMatchType) && SessionMatchType.Equals(MatchType))
 				{
 					if (GEngine)
 						GEngine->AddOnScreenDebugMessage(-1, 15.f, bWasSuccessful ? FColor::Green : FColor::Red, FString::Printf(TEXT("Session found: %s %i"), *(Result.GetSessionIdStr() + " " + Result.Session.OwningUserName), bWasSuccessful));

@@ -56,7 +56,7 @@ protected:
 	virtual void NativeDestruct() override;
 
 	//Callbacks
-	void OnCreateSession(bool bWasSuccessful);
+	void OnCreateSession(bool bWasSuccessful, const FString& Message);
 	void OnStartSession(bool bWasSuccessful);
 	void OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResults, bool bWasSuccessful);
 	void OnJoinSession(EOnJoinSessionCompleteResult::Type Result);
@@ -76,6 +76,7 @@ public:
 
 	int32 NumPublicConnections{ 4 };
 	FString MatchType{ TEXT("DeathMatch") };
+	FString PathToLobby{ TEXT("/Game/ThirdPerson/Maps/Lobby") };
 	int32 MaxSearchResults{ 1000 };
 
 };

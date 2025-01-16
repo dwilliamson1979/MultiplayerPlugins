@@ -9,7 +9,7 @@
 #include "MultiplayerSessionsSubsystem.generated.h"
 
 //Custom delegates for callbacks
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnCreateSession, bool bWasSuccessful);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnCreateSession, bool bWasSuccessful, const FString& Message);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnFindSessions, const TArray<FOnlineSessionSearchResult>& SessionResults, bool bWasSuccessful);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnJoinSession, EOnJoinSessionCompleteResult::Type Result);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnDestroySession, bool bWasSuccessful);
@@ -61,7 +61,7 @@ public:
 
 	//Blueprint-exposed session functions
 	UFUNCTION(BlueprintCallable, Category = MultiplayerSessions)
-	void CreateSession(ULocalPlayer* LocalPlayer, int32 NumPublicConnections, const FString MatchType);
+	void CreateSession(ULocalPlayer* LocalPlayer, int32 NumPublicConnections, const FString& MatchType);
 	UFUNCTION(BlueprintCallable, Category = MultiplayerSessions)
 	void StartSession(FName SessionName);
 	UFUNCTION(BlueprintCallable, Category = MultiplayerSessions)

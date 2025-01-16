@@ -21,11 +21,11 @@ UMultiplayerSessionsSubsystem::UMultiplayerSessionsSubsystem()
 	JoinSessionCompleteDelegate.BindUObject(this, &ThisClass::OnJoinSessionComplete);
 }
 
-void UMultiplayerSessionsSubsystem::CreateSession(ULocalPlayer* LocalPlayer, int32 NumPublicConnections, const FString MatchType)
+void UMultiplayerSessionsSubsystem::CreateSession(ULocalPlayer* LocalPlayer, int32 NumPublicConnections, const FString& MatchType)
 {
 	if (!HasSessionInterface() || !LocalPlayer)
 	{
-		OnCreateSession.Broadcast(false);
+		OnCreateSession.Broadcast(false, FString(TEXT("Invalid session interface and/or local player")));
 		return;
 	}
 
@@ -36,7 +36,8 @@ void UMultiplayerSessionsSubsystem::CreateSession(ULocalPlayer* LocalPlayer, int
 		//S2L20 Create Session Around 2:50 mark he does not use return. S2L28 discusses the topic as well.
 		//Consider storing numpubliconnections and matchtype if the code should disconnect and automatically try to start the new session.
 
-		DestroySession(ExistingSession->SessionName);
+		OnCreateSession.Broadcast(false, FString(TEXT("Currently in another session. Exiting the current session first.")));
+		DestroySession(ExistingSession->SessionName);		
 		return;
 	}
 
@@ -52,7 +53,7 @@ void UMultiplayerSessionsSubsystem::OnCreateSessionComplete(FName SessionName, b
 	if (HasSessionInterface())
 		OnlineSessionInterface->ClearOnCreateSessionCompleteDelegate_Handle(CreateSessionCompleteDelegateHandle);
 
-	OnCreateSession.Broadcast(bWasSuccessful);
+	OnCreateSession.Broadcast(bWasSuccessful, bWasSuccessful ? FString(TEXT("Session created")) : FString(TEXT("Could not create session")));
 }
 
 void UMultiplayerSessionsSubsystem::StartSession(FName SessionName)
